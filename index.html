@@ -3,86 +3,571 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>시네필</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>전문 영화 큐레이션 서비스 선택</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cinematic Fonts (Oswald for titles, Inter for body) -->
+    <style>
+        /* Oswald for powerful, condensed titles. Inter for clean body text. */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Oswald:wght<-700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #1a1a1a; /* Dark Theater Background */
+            color: #f0f0f0; 
+        }
+        h1, h2 {
+            font-family: 'Oswald', sans-serif; /* High-impact, condensed title font */
+        }
+        /* Custom Shadow for dramatic effect (like a stage light - now white/silver) */
+        .cinematic-shadow { 
+            /* White/Silver soft glow for monochrome drama */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05), 0 0 40px rgba(255, 255, 255, 0.1); 
+        }
+        .keyword-tag {
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            border-width: 2px;
+        }
+        /* Selected keyword is glowing silver/white */
+        .keyword-tag.selected {
+            transform: scale(1.05);
+            background-color: #d1d5db; /* Light Gray */
+            color: #1a1a1a;
+            border-color: #ffffff;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>To become a cinephile</h1>
-            <p>최근 한달간 본 영화를 기록해보세요</p>
+<body class="min-h-screen p-4 md:p-8">
+
+    <!-- Main Container - Dark, high-contrast style -->
+    <div id="app" class="max-w-5xl mx-auto bg-gray-900 cinematic-shadow rounded-xl p-6 md:p-12 border-t-4 border-gray-400">
+        
+        <!-- Header - Silver Title -->
+        <header class="mb-10 text-center">
+            <h1 class="text-5xl font-extrabold text-gray-200 mb-2 tracking-widest uppercase">당신을 위한 맞춤형 큐레이터</h1>
+            <p class="text-xl text-gray-400">가장 선호하는 영화 추천 방식을 선택해 주세요.</p>
         </header>
-        <main>
-            <form id="record-form">
-                <div class="form-group">
-                    <label for="type">장르</label>
-                    <select id="type" name="type">
-                        <option value="drama">드라마</option>
-                        <option value="documentary">다큐멘터리</option>
-                        <option value="SF">SF</option>
-                      <option value="action">액션</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="date">날짜</label>
-                    <input type="date" id="date" name="date" required>
-                </div>
-                <div class="form-group">
-                    <label for="content">내용</label>
-                    <textarea id="content" name="content" rows="4" placeholder="어떤 일이 있었나요?" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="reaction">상대방의 반응 (선택)</label>
-                    <input type="text" id="reaction" name="reaction" placeholder="상대방은 어떻게 반응했나요?">
-                </div>
-                <div class="form-group">
-                    <label>오늘의 기분</label>
-                    <div class="mood-selector">
-                        <input type="radio" id="mood-happy" name="mood" value="행복" checked>
-                        <label for="mood-happy">😄 행복</label>
-                        <input type="radio" id="mood-proud" name="mood" value="보통">
-                        <label for="mood-proud">😐 보통</label>
-                        <input type="radio" id="mood-thankful" name="mood" value="우울">
-                        <label for="mood-thankful">😔 우울</label>
-                        <input type="radio" id="mood-moved" name="mood" value="분노">
-                        <label for="mood-moved">😡 분노</label>
-                    </div>
-                </div>
-                <button type="submit">기록하기</button>
-            </form>
 
-            <section class="stats-section">
-                <h3>이번 달 통계</h3>
-                <div class="chart-container">
-                    <canvas id="mood-chart"></canvas>
+        <!-- Service Selection View (Initial Screen) -->
+        <div id="selectionView" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Card 1: Vibe/History Based Recommendation - 전체 카드 클릭 가능 -->
+            <div id="selectVibe" class="cinematic-shadow p-8 rounded-xl border-4 border-gray-700 hover:border-gray-400 transition duration-300 cursor-pointer bg-gray-800/50" data-service="vibe">
+                <div class="text-gray-400 mb-4">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v14L9 19z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18v-5l-3-3m3 3h3"></path></svg>
                 </div>
-            </section>
+                <h2 class="text-3xl font-bold text-center text-gray-300 mb-3 tracking-wider uppercase">1. 시청 기록 기반 (VIBE)</h2>
+                <p class="text-gray-300 text-center">이미 봤던 **좋아하는 영화 여러 개**를 바탕으로, 그 영화들의 공통된 분위기와 키워드에 완벽히 맞는 새로운 영화 5편을 추천받습니다.</p>
+                <button class="mt-5 w-full bg-white text-gray-900 py-3 rounded-lg font-bold text-lg hover:bg-gray-200 transition duration-300 shadow-xl border-b-4 border-gray-700">
+                    🎬 이 모드 선택하기
+                </button>
+            </div>
 
-            <section class="records-section">
-                <div class="section-header">
-                    <h2>우리의 기록들</h2>
-                    <button id="export-excel">엑셀로 내보내기</button>
+            <!-- Card 2: Keyword Narrowing Service - 전체 카드 클릭 가능 -->
+            <div id="selectKeyword" class="cinematic-shadow p-8 rounded-xl border-4 border-gray-700 hover:border-gray-400 transition duration-300 cursor-pointer bg-gray-800/50" data-service="keyword">
+                <div class="text-gray-400 mb-4">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <div class="records-list-container">
-                    <div class="records-header">
-                        <div>종류</div>
-                        <div>내용</div>
-                        <div>반응</div>     
-                        <div>날짜</div>
-                        <div>기분</div>
+                <h2 class="text-3xl font-bold text-center text-gray-300 mb-3 tracking-wider uppercase">2. 키워드 기반 (NARROW)</h2>
+                <p class="text-gray-300 text-center">보고 싶은 영화의 조건을 **직접 입력하거나 목록에서 선택**하여, 그 조건에 가장 잘 맞는 영화 목록 5편을 AI가 제시합니다.</p>
+                <button class="mt-5 w-full bg-white text-gray-900 py-3 rounded-lg font-bold text-lg hover:bg-gray-200 transition duration-300 shadow-xl border-b-4 border-gray-700">
+                    🌟 이 모드 선택하기
+                </button>
+            </div>
+        </div>
+
+        <!-- Mode Specific Views (Hidden by default) -->
+        <div id="serviceView" class="hidden mt-10 border-t border-gray-700 pt-8">
+            <button id="backToSelection" class="text-gray-400 hover:text-white mb-6 flex items-center transition duration-200 text-lg font-semibold">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                메인 서비스 선택 화면으로 돌아가기
+            </button>
+            
+            <h2 id="serviceTitle" class="text-4xl font-bold mb-8 text-center text-gray-200 uppercase"></h2>
+            
+            <!-- Loading Indicator -->
+            <div id="loading" class="text-center py-12 hidden">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-gray-400 mx-auto mb-4"></div>
+                <p class="text-gray-400 font-semibold text-xl" id="loadingText">영화 데이터를 분석 중입니다...</p>
+            </div>
+
+            <!-- 1. Vibe/History Based Form - Silver Accent -->
+            <div id="vibeForm" class="hidden max-w-2xl mx-auto space-y-6 p-6 bg-gray-700 rounded-lg border border-gray-600 cinematic-shadow">
+                <p class="text-gray-300 font-medium text-lg">최소 2개, 최대 3개의 영화 제목을 입력해주세요. 이 영화들의 분위기, 장르, 주제를 분석합니다.</p>
+                <input type="text" id="vibeMovie1" placeholder="좋아하는 영화 1 (예: 기생충)" class="w-full p-4 border border-gray-600 rounded-lg focus:ring-gray-400 focus:border-gray-400 bg-gray-800 text-white placeholder-gray-500">
+                <input type="text" id="vibeMovie2" placeholder="좋아하는 영화 2 (예: 라라랜드)" class="w-full p-4 border border-gray-600 rounded-lg focus:ring-gray-400 focus:border-gray-400 bg-gray-800 text-white placeholder-gray-500">
+                <input type="text" id="vibeMovie3" placeholder="좋아하는 영화 3 (선택 사항)" class="w-full p-4 border border-gray-600 rounded-lg focus:ring-gray-400 focus:border-gray-400 bg-gray-800 text-white placeholder-gray-500">
+                
+                <button id="getVibeRecommendationBtn" class="w-full bg-white text-gray-900 py-4 rounded-lg font-bold text-xl hover:bg-gray-200 transition duration-300 shadow-2xl border-b-4 border-gray-700">
+                    <span id="vibeBtnText">유사한 영화 5편 추천받기</span>
+                    <div id="vibeSpinner" class="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900 ml-2 hidden"></div>
+                </button>
+            </div>
+
+            <!-- 2. Keyword Sub-Selection View - White/Silver Accent -->
+            <div id="keywordSubSelectionView" class="hidden max-w-3xl mx-auto space-y-8">
+                <h3 class="text-3xl font-semibold text-center text-gray-200 border-b border-gray-700 pb-4 uppercase">키워드 입력 방식 선택</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Option 1: Direct Input -->
+                    <div id="selectDirectInput" class="cinematic-shadow p-8 rounded-xl border-4 border-gray-700 hover:border-gray-400 transition duration-300 cursor-pointer bg-gray-800">
+                        <h4 class="text-2xl font-bold text-gray-300 mb-3">A. 키워드 직접 입력 (자유 서술)</h4>
+                        <p class="text-gray-400">원하는 분위기나 조건을 **자유롭게** 서술합니다. (예: '홍콩 느와르, 우울함, 빗속의 액션')</p>
+                        <button class="mt-5 w-full bg-white text-gray-900 py-3 rounded-lg font-semibold text-lg hover:bg-gray-200 shadow-xl border-b-4 border-gray-700">
+                            직접 입력 모드 시작
+                        </button>
                     </div>
-                    <div id="records-container">
-                        <!-- 기록 목록이 여기에 동적으로 추가됩니다. -->
+                    <!-- Option 2: Selection List -->
+                    <div id="selectKeywordList" class="cinematic-shadow p-8 rounded-xl border-4 border-gray-700 hover:border-gray-400 transition duration-300 cursor-pointer bg-gray-800">
+                        <h4 class="text-2xl font-bold text-gray-300 mb-3">B. 목록에서 키워드 선택 (정교함)</h4>
+                        <p class="text-gray-400">AI가 제공하는 방대한 리스트에서 **원하는 키워드만 골라** 선택합니다.</p>
+                        <button class="mt-5 w-full bg-white text-gray-900 py-3 rounded-lg font-semibold text-lg hover:bg-gray-200 shadow-xl border-b-4 border-gray-700">
+                            선택 모드 시작
+                        </button>
                     </div>
                 </div>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2025 나의 따뜻한 하루. All rights reserved.</p>
-        </footer>
+            </div>
+
+
+            <!-- 2A. Keyword Direct Input Form - White Accent -->
+            <div id="keywordForm" class="hidden max-w-2xl mx-auto space-y-6 p-6 bg-gray-700 rounded-lg border border-gray-600 cinematic-shadow">
+                <p class="text-gray-300 font-medium text-lg">원하는 영화의 분위기, 장르, 주제, 감독 등 구체적인 키워드를 입력해주세요.</p>
+                <textarea id="keywordInput" rows="4" class="w-full p-4 border border-gray-600 rounded-lg focus:ring-gray-400 focus:border-gray-400 bg-gray-800 text-white placeholder-gray-500" placeholder="예시: '긴장감 넘치는 스릴러', '몽환적인 영상미가 가득한 유럽 영화', '90년대 홍콩 누아르 분위기'"></textarea>
+                
+                <button id="getKeywordRecommendationBtn" class="w-full bg-white text-gray-900 py-4 rounded-lg font-bold text-xl hover:bg-gray-200 transition duration-300 shadow-2xl border-b-4 border-gray-700">
+                    <span id="keywordBtnText">키워드에 맞는 영화 5편 추천받기</span>
+                    <div id="keywordSpinner" class="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900 ml-2 hidden"></div>
+                </button>
+                <button id="backToKeywordSubSelectionFromDirect" class="text-gray-500 hover:text-gray-400 w-full text-center mt-4 text-sm transition">
+                    다른 키워드 입력 방식으로 돌아가기
+                </button>
+            </div>
+
+            <!-- 2B. Keyword Selection List Form - White Accent -->
+            <div id="selectionForm" class="hidden max-w-4xl mx-auto space-y-6 p-8 bg-gray-700 rounded-lg border border-gray-600 cinematic-shadow">
+                <p class="text-gray-300 font-medium text-lg">원하는 키워드를 **최소 3개 이상** 선택해 주세요. (클릭하면 선택됩니다)</p>
+                
+                <div id="keywordTagContainer" class="flex flex-wrap gap-3 p-4 bg-gray-800 rounded-lg border border-gray-700 min-h-[120px]">
+                    <!-- Keywords will be rendered here by JS -->
+                </div>
+                
+                <div class="text-center font-bold text-gray-400 text-xl" id="selectedKeywordCount">선택된 키워드: 0개</div>
+
+                <button id="getSelectedRecommendationBtn" class="w-full bg-white text-gray-900 py-4 rounded-lg font-bold text-xl hover:bg-gray-200 transition duration-300 shadow-2xl border-b-4 border-gray-700">
+                    <span id="selectionBtnText">선택된 키워드 기반 영화 5편 추천받기</span>
+                    <div id="selectionSpinner" class="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900 ml-2 hidden"></div>
+                </button>
+                <button id="backToKeywordSubSelectionFromSelect" class="text-gray-500 hover:text-gray-400 w-full text-center mt-4 text-sm transition">
+                    다른 키워드 입력 방식으로 돌아가기
+                </button>
+            </div>
+
+
+            <!-- Recommendation Output -->
+            <div id="recommendationOutput" class="mt-12 p-8 bg-gray-800 rounded-lg border-l-8 border-gray-400 cinematic-shadow hidden">
+                <h4 class="text-3xl font-bold text-gray-200 mb-4 border-b border-gray-700 pb-3">✨ AI 큐레이터의 추천 결과 ✨</h4>
+                <div id="aiRecommendationContent" class="text-gray-300 leading-relaxed whitespace-pre-wrap text-lg"></div>
+                <div id="aiSources" class="mt-6 pt-3 border-t border-gray-700 text-sm text-gray-500"></div>
+            </div>
+            
+        </div>
+
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-    <script src="script.js"></script>
+
+    <!-- Application Logic (Improved Error Handling for 403) -->
+    <script type="module">
+        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+        //
+        // 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
+        // 👇👇👇👇👇👇👇👇👇👇👇👇👇여기에 API KEY를 넣으셔야 합니다! (발급받은 키를 " " 안에 붙여넣으세요) 👇👇👇👇👇👇👇👇👇👇👇👇👇
+        // 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
+        const API_KEY = ""; // 👈 👈 👈 이 빈 문자열 안에 키를 넣어주세요!
+        // 👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆
+        
+        // --- DOM ELEMENTS ---
+        const selectionView = document.getElementById('selectionView');
+        const serviceView = document.getElementById('serviceView');
+        const serviceTitle = document.getElementById('serviceTitle');
+        const loading = document.getElementById('loading');
+        const loadingText = document.getElementById('loadingText');
+        const recommendationOutput = document.getElementById('recommendationOutput');
+        const aiRecommendationContent = document.getElementById('aiRecommendationContent');
+        const aiSources = document.getElementById('aiSources');
+        const backToSelection = document.getElementById('backToSelection');
+        
+        // Vibe/History Elements
+        const selectVibe = document.getElementById('selectVibe'); // Card DIV
+        const vibeForm = document.getElementById('vibeForm');
+        const vibeMovie1 = document.getElementById('vibeMovie1');
+        const vibeMovie2 = document.getElementById('vibeMovie2');
+        const vibeMovie3 = document.getElementById('vibeMovie3');
+        const getVibeRecommendationBtn = document.getElementById('getVibeRecommendationBtn');
+        const vibeBtnText = document.getElementById('vibeBtnText');
+        const vibeSpinner = document.getElementById('vibeSpinner');
+
+        // Keyword Elements
+        const selectKeyword = document.getElementById('selectKeyword'); // Card DIV
+        const keywordSubSelectionView = document.getElementById('keywordSubSelectionView');
+        const selectDirectInput = document.getElementById('selectDirectInput');
+        const selectKeywordList = document.getElementById('selectKeywordList');
+        
+        // Keyword Direct Input Elements
+        const keywordForm = document.getElementById('keywordForm');
+        const keywordInput = document.getElementById('keywordInput');
+        const getKeywordRecommendationBtn = document.getElementById('getKeywordRecommendationBtn');
+        const keywordBtnText = document.getElementById('keywordBtnText');
+        const keywordSpinner = document.getElementById('keywordSpinner');
+        const backToKeywordSubSelectionFromDirect = document.getElementById('backToKeywordSubSelectionFromDirect');
+
+        // Keyword Selection List Elements
+        const selectionForm = document.getElementById('selectionForm');
+        const keywordTagContainer = document.getElementById('keywordTagContainer');
+        const selectedKeywordCount = document.getElementById('selectedKeywordCount');
+        const getSelectedRecommendationBtn = document.getElementById('getSelectedRecommendationBtn');
+        const selectionBtnText = document.getElementById('selectionBtnText');
+        const selectionSpinner = document.getElementById('selectionSpinner');
+        const backToKeywordSubSelectionFromSelect = document.getElementById('backToKeywordSubSelectionFromSelect');
+
+        // State
+        let selectedKeywords = new Set();
+
+        // --- MOCK DATA (Not used for core functionality, kept for context) ---
+        function fetchMovieMetadata(movieTitle) {
+            const title = movieTitle.toLowerCase().trim();
+            const mockData = {
+                // ... (previous mock data)
+            };
+            return mockData[title] || null;
+        }
+        
+        // --- UTILITY FUNCTIONS ---
+        
+        // Hides all service views and shows only the target view
+        function showView(target) {
+            [vibeForm, keywordSubSelectionView, keywordForm, selectionForm, loading, recommendationOutput].forEach(el => el.classList.add('hidden'));
+            if (target) {
+                target.classList.remove('hidden');
+            }
+        }
+
+        function setLoading(isLoading, text = "영화 데이터를 분석 중입니다...") {
+            if (isLoading) {
+                selectionView.classList.add('hidden');
+                serviceView.classList.remove('hidden');
+                showView(loading);
+                loadingText.textContent = text;
+            } else {
+                loading.classList.add('hidden');
+            }
+        }
+
+        // --- KEYWORD DATA & RENDER ---
+        const ALL_KEYWORDS = [
+            "액션", "SF", "판타지", "드라마", "멜로/로맨스", "코미디", "스릴러", "범죄",
+            "느와르", "호러", "미스터리", "서부", "뮤지컬", "전쟁", "다큐멘터리", "애니메이션",
+            "시대극", "복수", "성장", "반전", "음모론", "디스토피아", "아름다운 영상미",
+            "슬픈", "잔혹한", "가슴 따뜻한", "철학적인", "유쾌한", "B급 감성", "한국 영화",
+            "미국 영화", "유럽 영화", "아시아 영화", "90년대", "2000년대", "최신작", "독립영화"
+        ];
+
+        function renderKeywords() {
+            keywordTagContainer.innerHTML = '';
+            ALL_KEYWORDS.forEach(keyword => {
+                const tag = document.createElement('span');
+                tag.textContent = keyword;
+                tag.className = 'keyword-tag inline-block px-4 py-2 text-sm font-semibold rounded-full border-gray-500 text-gray-400 bg-gray-900 transition duration-150 ease-in-out';
+                tag.dataset.keyword = keyword;
+                
+                if (selectedKeywords.has(keyword)) {
+                    tag.classList.add('selected');
+                }
+
+                tag.addEventListener('click', () => toggleKeyword(keyword, tag));
+                keywordTagContainer.appendChild(tag);
+            });
+            updateSelectedCount();
+        }
+
+        function toggleKeyword(keyword, tag) {
+            if (selectedKeywords.has(keyword)) {
+                selectedKeywords.delete(keyword);
+                tag.classList.remove('selected');
+                tag.classList.remove('bg-gray-200', 'text-gray-900', 'border-white', 'shadow-white-glow');
+            } else if (selectedKeywords.size < 8) {
+                selectedKeywords.add(keyword);
+                tag.classList.add('selected');
+            } else {
+                // 키워드 선택 제한 (8개)을 초과했을 때 사용자에게 알림을 제공할 수 있습니다.
+            }
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            selectedKeywordCount.textContent = `선택된 키워드: ${selectedKeywords.size}개`;
+        }
+        
+        // --- API CALL LOGIC ---
+        
+        async function callGeminiApi(systemPrompt, userQuery) {
+            // Error handling for missing API key
+            if (!API_KEY) {
+                aiRecommendationContent.innerHTML = '<p class="text-red-500 font-bold">🚨 API Key 오류: jsbin.com과 같은 외부 환경에서는 코드 상단에 API_KEY를 직접 넣어주셔야 합니다. (코드 320번대 줄 근처)</p>';
+                setLoading(false);
+                recommendationOutput.classList.remove('hidden');
+                return null;
+            }
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }], // Enable grounding
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            // Enhanced Retry Logic (Exponential Backoff)
+            const MAX_RETRIES = 3;
+            for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                try {
+                    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                         if (response.status === 403) {
+                            throw new Error("403 Forbidden: API Key 권한 문제 또는 잘못된 키입니다.");
+                        }
+                        const errorBody = await response.json();
+                        throw new Error(`API 호출 실패 (Status: ${response.status}, Detail: ${JSON.stringify(errorBody)}`);
+                    }
+
+                    const result = await response.json();
+                    const candidate = result.candidates?.[0];
+
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        const text = candidate.content.parts[0].text;
+                        const sources = getGroundingSources(candidate);
+                        return { text, sources };
+                    }
+                    throw new Error("API 응답에서 유효한 텍스트를 찾을 수 없습니다.");
+
+                } catch (error) {
+                    console.error(`Attempt ${attempt + 1} failed:`, error.message);
+                    if (attempt === MAX_RETRIES - 1) {
+                         // Last attempt failed
+                         if (error.message.includes("403 Forbidden")) {
+                            aiRecommendationContent.innerHTML = '<p class="text-red-500 font-bold">🚨 API Key 오류: 사용 권한이 없거나 유효하지 않은 키입니다. 키를 확인해 주세요. (코드 320번대 줄 근처)</p>';
+                        } else {
+                            aiRecommendationContent.innerHTML = `<p class="text-red-500 font-bold">🚨 추천 실패: API 호출에 문제가 발생했습니다. (${error.message}) 잠시 후 다시 시도해 주세요.</p>`;
+                        }
+                        setLoading(false);
+                        recommendationOutput.classList.remove('hidden');
+                        return null;
+                    }
+                    // Exponential backoff
+                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+                }
+            }
+        }
+        
+        function getGroundingSources(candidate) {
+            const sources = [];
+            const groundingMetadata = candidate.groundingMetadata;
+            if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                groundingMetadata.groundingAttributions
+                    .map(attribution => ({
+                        uri: attribution.web?.uri,
+                        title: attribution.web?.title,
+                    }))
+                    .filter(source => source.uri && source.title)
+                    .forEach(source => sources.push(source));
+            }
+            return sources;
+        }
+
+        // --- HANDLERS ---
+        
+        // Main selection handler
+        function handleServiceSelection(service) {
+            selectionView.classList.add('hidden');
+            serviceView.classList.remove('hidden');
+            recommendationOutput.classList.add('hidden');
+            
+            if (service === 'vibe') {
+                serviceTitle.textContent = "1. 시청 기록 기반 (VIBE) 모드";
+                showView(vibeForm);
+            } else if (service === 'keyword') {
+                serviceTitle.textContent = "2. 키워드 기반 (NARROW) 모드";
+                showView(keywordSubSelectionView);
+            }
+        }
+        
+        // Vibe/History recommendation request
+        getVibeRecommendationBtn.addEventListener('click', async () => {
+            const movies = [vibeMovie1.value.trim(), vibeMovie2.value.trim(), vibeMovie3.value.trim()].filter(t => t);
+
+            if (movies.length < 2) {
+                // Custom alert message instead of window.alert()
+                aiRecommendationContent.innerHTML = '<p class="text-yellow-400 font-bold">⚠️ 경고: 최소 2개의 영화 제목을 입력해야 합니다.</p>';
+                recommendationOutput.classList.remove('hidden');
+                return;
+            }
+
+            setLoading(true, `[${movies.join(', ')}] 영화들의 분위기를 분석하고 있습니다...`);
+            recommendationOutput.classList.add('hidden');
+            
+            const movieString = movies.join(', ');
+
+            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 영화 ${movies.length}편을 분석하여 그들의 공통된 분위기(vibe), 장르, 주제를 완벽하게 만족시키는 새로운 영화 5편을 추천해 주세요.
+            1. 추천하는 영화 5편은 사용자가 이미 제공한 영화들과는 다른 영화여야 합니다.
+            2. 각 영화에 대해 제목, 장르, 그리고 왜 추천하는지(짧은 이유)를 명확하게 설명해 주세요.
+            3. 응답은 분석 결과(사용자가 제공한 영화들의 공통된 분위기)와 추천 목록으로 구성되어야 합니다.`;
+            
+            const userQuery = `내가 좋아한 영화 목록: ${movieString}. 이 영화들의 공통적인 분위기에 맞는 새로운 영화 5편을 추천해 주세요.`;
+
+            const result = await callGeminiApi(systemPrompt, userQuery);
+            if (result) {
+                displayRecommendation(result);
+            }
+        });
+
+        // Keyword Direct Input recommendation request
+        getKeywordRecommendationBtn.addEventListener('click', async () => {
+            const keywords = keywordInput.value.trim();
+
+            if (!keywords) {
+                aiRecommendationContent.innerHTML = '<p class="text-yellow-400 font-bold">⚠️ 경고: 원하는 키워드를 입력해 주세요.</p>';
+                recommendationOutput.classList.remove('hidden');
+                return;
+            }
+            
+            setLoading(true, `[${keywords}] 키워드에 맞는 영화를 검색하고 있습니다...`);
+            recommendationOutput.classList.add('hidden');
+
+            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 키워드와 조건에 가장 잘 맞는 영화 5편을 추천해 주세요.
+            1. 각 영화에 대해 제목, 장르, 그리고 키워드에 어떻게 부합하는지(짧은 이유)를 명확하게 설명해 주세요.
+            2. 응답은 사용자가 제시한 키워드 요약과 추천 목록으로 구성되어야 합니다.`;
+            
+            const userQuery = `내가 원하는 영화의 키워드/조건: ${keywords}. 이 조건에 가장 잘 맞는 새로운 영화 5편을 추천해 주세요.`;
+
+            const result = await callGeminiApi(systemPrompt, userQuery);
+            if (result) {
+                displayRecommendation(result);
+            }
+        });
+
+        // Keyword Selection List recommendation request
+        getSelectedRecommendationBtn.addEventListener('click', async () => {
+            if (selectedKeywords.size < 3) {
+                aiRecommendationContent.innerHTML = '<p class="text-yellow-400 font-bold">⚠️ 경고: 최소 3개 이상의 키워드를 선택해야 합니다.</p>';
+                recommendationOutput.classList.remove('hidden');
+                return;
+            }
+
+            const keywordsArray = Array.from(selectedKeywords);
+            const keywordString = keywordsArray.join(', ');
+            
+            setLoading(true, `선택된 [${keywordString}] 키워드를 조합하여 최적의 영화를 찾고 있습니다...`);
+            recommendationOutput.classList.add('hidden');
+
+            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 ${selectedKeywords.size}개의 키워드 조합에 가장 잘 맞는 영화 5편을 추천해 주세요.
+            1. 각 영화에 대해 제목, 장르, 그리고 키워드에 어떻게 부합하는지(짧은 이유)를 명확하게 설명해 주세요.
+            2. 응답은 선택된 키워드 조합의 특징 요약과 추천 목록으로 구성되어야 합니다.`;
+            
+            const userQuery = `내가 선택한 키워드 조합: ${keywordString}. 이 조합에 가장 잘 맞는 새로운 영화 5편을 추천해 주세요.`;
+
+            const result = await callGeminiApi(systemPrompt, userQuery);
+            if (result) {
+                displayRecommendation(result);
+            }
+        });
+        
+        function displayRecommendation(result) {
+            setLoading(false);
+            showView(recommendationOutput);
+            
+            aiRecommendationContent.innerHTML = formatMarkdown(result.text);
+
+            aiSources.innerHTML = '출처: ';
+            if (result.sources.length > 0) {
+                const sourceLinks = result.sources.map((src, index) => 
+                    `<a href="${src.uri}" target="_blank" class="text-blue-400 hover:text-blue-300 transition underline">${src.title || `출처 ${index + 1}`}</a>`
+                ).join(' | ');
+                aiSources.innerHTML += sourceLinks;
+            } else {
+                 aiSources.innerHTML += '구글 검색 결과를 활용했습니다.';
+            }
+
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        // Simple Markdown to HTML formatter for displaying output
+        function formatMarkdown(text) {
+            if (!text) return '';
+            
+            // Bold (**text**)
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Headings (##, ###) - only replace leading ones for list structure
+            text = text.replace(/^### (.*$)/gim, '<h4 class="text-xl font-semibold mt-4 mb-2">$1</h4>');
+            text = text.replace(/^## (.*$)/gim, '<h3 class="text-2xl font-bold mt-6 mb-3 border-b border-gray-600 pb-1">$1</h3>');
+            
+            // Lists (* item)
+            // Fix: Changed invalid 'gg' flag to valid 'g' flag
+            text = text.replace(/\n\* (.*)/g, '\n<li>$1</li>');
+            // Fix: Changed potentially unsupported 's' flag to valid 'g' flag to avoid SyntaxError.
+            text = text.replace(/(\n<li>.*<\/li>)/g, '<ul class="list-disc list-inside mb-4 pl-4">$1</ul>');
+            
+            // Ensure proper line breaks for remaining text
+            text = text.replace(/\n/g, '<br>');
+
+            return text;
+        }
+
+        // --- INITIALIZATION AND EVENT LISTENERS ---
+        
+        // FIX: Event listeners are attached to the main Card DIVs now, and the internal 'pointer-events-none' class has been removed from HTML content for reliability.
+        selectVibe.addEventListener('click', () => handleServiceSelection('vibe'));
+        selectKeyword.addEventListener('click', () => handleServiceSelection('keyword'));
+        
+        // Sub-Selection Clicks
+        selectDirectInput.addEventListener('click', () => {
+            showView(keywordForm);
+        });
+        selectKeywordList.addEventListener('click', () => {
+            showView(selectionForm);
+        });
+        
+        // Back Buttons
+        backToSelection.addEventListener('click', () => {
+            serviceView.classList.add('hidden');
+            selectionView.classList.remove('hidden');
+            recommendationOutput.classList.add('hidden'); // Hide output when returning to start
+            selectedKeywords.clear(); // Reset state
+            // Reset forms
+            vibeMovie1.value = vibeMovie2.value = vibeMovie3.value = '';
+            keywordInput.value = '';
+            renderKeywords(); // Re-render to clear selections
+        });
+
+        backToKeywordSubSelectionFromDirect.addEventListener('click', () => {
+            showView(keywordSubSelectionView);
+        });
+
+        backToKeywordSubSelectionFromSelect.addEventListener('click', () => {
+            showView(keywordSubSelectionView);
+        });
+
+        // Initialize keyword tags for the selection list and attach other listeners
+        window.onload = () => {
+            renderKeywords();
+            // Check for missing key on load
+            if (!API_KEY) {
+                console.warn("API Key is missing. Please insert your key in the script block for external use.");
+            }
+        };
+        
+    </script>
 </body>
 </html>
