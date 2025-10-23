@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전문 영화 큐레이션 서비스 선택 (수정 가이드 포함)</title>
+    <title>전문 영화 큐레이션 서비스 선택 (레이아웃 복구 및 검색 확인)</title>
     <!-- Tailwind CSS CDN 로드 -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -114,7 +114,7 @@
         <!-- [A-1] 헤더 영역: 제목 및 설명 -->
         <header class="mb-12 text-center">
             <!-- 제목 글자 크기, 굵기, 색상 -->
-            <h1 class="text-6xl font-bold text-white mb-2">PersonaL CuratoR</h1>
+            <h1 class="text-6xl font-bold text-white mb-2">Personal CuratoR</h1>
             <!-- 설명 글자 크기, 색상, 굵기 -->
             <p class="text-lg text-gray-400 font-light">맞춤형 영화 추천 서비스</p>
         </header>
@@ -128,22 +128,13 @@
             
             <!-- [B-1] 카드 1: Vibe 기반 추천 -->
             <div id="selectVibe" class="modern-block p-8 rounded-lg border border-gray-800 hover:border-gray-500 transition duration-300 cursor-pointer" style="background-color: var(--card-bg-color);" data-service="vibe">
-                <!-- 
-                    - modern-block: 카드에 그림자/테두리 기본 스타일 적용
-                    - p-8: 내부 패딩 (크기)
-                    - rounded-lg: 모서리 둥글기
-                    - border border-gray-800: 기본 테두리
-                    - hover:border-gray-500: 마우스 오버 시 테두리 색상 변경
-                -->
                 <div class="text-gray-200 mb-4">
                     <!-- 아이콘 (SVG) -->
                     <svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.55 2.275a.5.5 0 010 .89L15 15.65V10zM5.5 10h9M5.5 15h9M12 21a9 9 0 100-18 9 9 0 000 18z"></path></svg>
                 </div>
                 <h2 class="text-3xl font-bold text-center text-white mb-3">시청 기록 기반 (VIBE)</h2>
-                <!-- 부제목 1: 너무 길어서 중간에 <br> 태그를 넣어 줄을 바꿨습니다. -->
-                <p class="text-gray-300 text-center font-light">좋아하는 영화들에서 공통된 분위기를 추출하여,<br>그 분위기에 가장 완벽하게 맞는 새로운 영화를 추천받습니다.</p>
+                <p class="text-gray-300 text-center font-light">좋아하는 영화들에서 공통된 분위기를 추출하여,<br>그 분위기에 가장 완벽하게 맞는 새로운 영화 5편을 추천받습니다.</p>
                 <button class="main-action-btn mt-6 w-full py-3 rounded-md font-semibold text-base">
-                    <!-- mt-6: 버튼 상단 마진, w-full: 버튼 너비 100%, py-3: 버튼 상하 패딩 -->
                     이 모드 선택하기
                 </button>
             </div>
@@ -155,7 +146,6 @@
                     <svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10a2 2 0 10-4 0m4 0h3a2 2 0 012 2v10H5V12a2 2 0 012-2h3M9 6h6"></path></svg>
                 </div>
                 <h2 class="text-3xl font-bold text-center text-white mb-3">키워드 기반 (NARROW)</h2>
-                <!-- 부제목 2: 너무 길어서 중간에 <br> 태그를 넣어 줄을 바꿨습니다. -->
                 <p class="text-gray-300 text-center font-light">원하는 장르, 분위기, 주제 등의 조건을 직접 입력하거나<br>목록에서 정교하게 선택하여 맞춤형 목록을 제공받습니다.</p>
                 <button class="main-action-btn mt-6 w-full py-3 rounded-md font-semibold text-base">
                     이 모드 선택하기
@@ -287,33 +277,28 @@
                     - rounded-lg: 모서리 둥글기
                     - shadow-2xl: 그림자 효과
                 -->
-             
-                <!-- 1. 추천 결과 제목 아래 줄 제거: 'border-b border-gray-300 pb-4' 클래스를 삭제했습니다. -->
+                
                 <h4 class="text-3xl font-bold text-gray-900 mb-6 uppercase">✨ 추천 결과</h4>
                 
                 <div id="aiRecommendationContent" class="leading-relaxed whitespace-pre-wrap text-gray-700 text-base">
                     <!-- 영화 추천 내용이 여기에 표시됩니다. -->
                 </div>
                 
-                <!-- 2. 출처 섹션 위 줄 제거: 'pt-4 border-t border-gray-300' 클래스를 삭제했습니다. -->
+                <!-- 2. 출처 정보 -->
                 <div id="aiSources" class="mt-6 text-sm text-gray-500 font-light">
                     <!-- 검색 출처가 여기에 표시됩니다. -->
                 </div>
             </div>
             
-            <!-- 영화별 추천 항목의 내부 디자인 수정 가이드 (JS 내부 formatRecommendationText 함수 참고) -->
-            
         </div>
-        
-    </div>
 
-    <!-- Application Logic (수정 금지 권장 - 기능 관련 코드) -->
+    <!-- Application Logic -->
     <script type="module">
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
         
         // --- 🔑 API KEY 설정 (필수) ---
         // 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
-        const API_KEY = "AIzaSyDsEmoqYmgJAn6r_Gtrc6rKUkqalvV5gEY"; // 👈 👈 👈 여기에 발급받은 키를 넣어주세요!
+        const API_KEY = "AIzaSyDsEmoqYmgJAn6r_Gtrc6rKUkqalvV5gEY"; // 캔버스 환경에서 자동 제공됨
         // 👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆
         
         // --- DOM ELEMENTS ---
@@ -327,7 +312,7 @@
         const aiSources = document.getElementById('aiSources');
         const backToSelection = document.getElementById('backToSelection');
         
-        // Vibe/History Elements (수정됨: 개별 입력 필드 ID 제거 및 컨테이너/버튼 추가)
+        // Vibe/History Elements
         const selectVibe = document.getElementById('selectVibe'); // Card DIV
         const vibeForm = document.getElementById('vibeForm');
         const vibeInputsContainer = document.getElementById('vibeInputsContainer'); // 입력 필드 컨테이너
@@ -377,35 +362,26 @@
             }
         }
 
-        // --- KEYWORD DATA & RENDER (업데이트된 키워드 목록 - 약 100개) ---
+        // --- KEYWORD DATA & RENDER ---
+        
         const ALL_KEYWORDS = [
-            // 1. 장르/카테고리 (Genre/Category - 31개)
             "액션", "스릴러", "SF", "판타지", "드라마", "코미디", "로맨스", "느와르", 
-            "범죄", "공포(호러)", "미스터리", "전쟁", "뮤지컬", "다큐멘터리", "애니메이션", "시대극",
-            "서부극", "하드보일드", "블랙 코미디", "슈퍼히어로", "스포츠 드라마", "첩보/스파이",
-            "재난", "음악", "로드 무비", "모큐멘터리", "실험 영화", "어드벤처", 
-            "가족 영화", "하이틴", "포스트 아포칼립스", 
-            
-            // 2. 테마/주제 (Theme/Subject - 25개)
+            "범죄", "공포(호러)", "미스터리", "전쟁", "뮤지컬", "다큐멘터리", "애니메이션",
+            "서부극", "무협", "첩보", "재난", "실험 영화",
             "복수", "성장", "반전", "음모론", "디스토피아", "휴머니즘", "가족", "역사", 
-            "정치", "법정", "종교", "환경", "스포츠",
-            "시간 여행", "평행 우주", "인공 지능 (AI)", "메디컬", "교육/학교", "직장 생활", 
-            "이민/이주", "성 소수자 (LGBTQ+)", "예술가의 삶", "빈곤/사회 비판", "자본주의 비판", "초자연 현상",
-            
-            // 3. 분위기/스타일 (Mood/Style - 24개)
+            "정치", "법정", "종교", "환경", "스포츠", "시간 여행", "인공지능", "SF 스릴러", 
+            "학교 폭력", "사회 비판", "블랙 코미디", "실화 기반", "정체성 탐구", "예술가", 
+            "청소년", "우주", "초자연", "음악", "셰익스피어 각색", "액션 코미디",
             "아름다운 영상미", "슬픈", "잔혹한", "가슴 따뜻한", "철학적인", "유쾌한", 
-            "B급 감성", "몽환적인", "긴장감 넘치는", "힐링", "고전미", "키치",
-            "강렬한", "차분한", "신나는", "섬세한 심리묘사", "화려한 미장센", "건조한", 
-            "속도감 있는", "느린 호흡", "블루톤/채도가 낮은", "컬러풀/원색적인", "시니컬한", "낭만적인",
-            
-            // 4. 국가/시대 (Origin/Era - 21개)
-            "한국 영화", "미국 영화", "유럽 영화", "아시아 영화", 
-            "80년대", "90년대", "2000년대", "최신작", "독립영화",
-            "프랑스 영화", "영국 영화", "일본 영화", "중국 영화", "남미 영화", 
-            "소련/러시아 영화", "무성 영화", "흑백 영화", 
-            "40년대 이전", "50년대", "60년대", "70년대"
+            "B급 감성", "몽환적인", "긴장감 넘치는", "힐링", "고전미", "키치", "강렬한", 
+            "잔잔한", "컬러풀한", "흑백", "핸드헬드", "옴니버스식", "병맛", "극적인", 
+            "퇴폐적인", "미니멀리즘", "느린 호흡", "패셔너블한", "독특한 캐릭터", 
+            "음향 효과 강조", "시각 효과 극대화",
+            "한국 영화", "미국 영화", "유럽 영화", "아시아 영화", "80년대", "90년대", 
+            "2000년대", "최신작", "독립영화", "영국 영화", "프랑스 영화", "일본 영화", 
+            "중국 영화", "러시아 영화", "남미 영화", "호주 영화", "1950년대", "1960년대", 
+            "1970년대", "2010년대", "2020년대", "판타지 블록버스터", "숨겨진 명작", "단편 영화"
         ];
-        // 총 101개
         // --- END OF KEYWORD DATA ---
 
         function renderKeywords() {
@@ -413,7 +389,6 @@
             ALL_KEYWORDS.forEach(keyword => {
                 const tag = document.createElement('span');
                 tag.textContent = keyword;
-                // [G] 키워드 태그 디자인 적용 (CSS 변수 사용)
                 tag.className = 'keyword-tag inline-block px-4 py-2 text-sm font-medium rounded-full hover:bg-gray-800 transition duration-150 ease-in-out';
                 tag.dataset.keyword = keyword;
                 
@@ -435,7 +410,7 @@
                 selectedKeywords.add(keyword);
                 tag.classList.add('selected');
             } else {
-                // Custom alert message instead of window.alert()
+                // Custom alert message
                 aiRecommendationContent.innerHTML = '<p class="text-red-500 font-bold">⚠️ 경고: 키워드는 최대 8개까지만 선택할 수 있습니다.</p>';
                 recommendationOutput.classList.remove('hidden');
                 showView(recommendationOutput);
@@ -534,53 +509,84 @@
             return text;
         }
 
-        // Formatter that identifies movie sections and extracts the Search URL and Title
+        // Formatter that identifies movie sections and extracts the title to generate the search URL
         function formatRecommendationText(text) {
             if (!text) return '';
             
-            const sections = text.split(/^### /gm).filter(s => s.trim() !== '');
+            // 1. 첫 번째 ###를 기준으로 도입부와 영화 목록을 분리
+            const firstMovieIndex = text.indexOf('### ');
+            let introText = '';
+            let movieSections = text;
+            
+            if (firstMovieIndex > -1) {
+                introText = text.substring(0, firstMovieIndex).trim();
+                movieSections = text.substring(firstMovieIndex).trim();
+            }
 
             let html = '';
+            
+            // 2. 도입부 포맷팅 및 여백 최소화 (mb-2로 최소화)
+            if (introText) {
+                 // mb-2로 상단 여백을 최소화
+                html += `<p class="mb-2 font-normal text-gray-800">${formatMarkdown(introText)}</p>`;
+            }
+            
+            // 3. 영화 섹션 분리 및 포맷팅
+            const sections = movieSections.split(/^### /gm).filter(s => s.trim() !== '');
+
             sections.forEach((section, index) => {
                 const titleMatch = section.match(/^(.*?)\n/);
-                const rawTitleWithNumber = titleMatch ? titleMatch[1].trim() : `추천 영화 ${index}`;
+                const rawTitleWithNumber = titleMatch ? titleMatch[1].trim() : `추천 영화 ${index + 1}`;
                 
+                // 이전 버전의 [SEARCH_URL:...] 태그를 제거하는 로직. 이제 LLM은 이 태그를 생성하지 않습니다.
                 const urlPattern = /\[SEARCH_URL:(.*?)\]/;
-                const urlMatch = section.match(urlPattern);
-                const searchUrl = urlMatch ? urlMatch[1].trim() : '#';
-                
                 let movieContent = section.substring(titleMatch ? titleMatch[0].length : 0);
-                if (urlMatch) {
-                    movieContent = movieContent.replace(urlMatch[0], '').trim();
+                if (movieContent.match(urlPattern)) {
+                    movieContent = movieContent.replace(movieContent.match(urlPattern)[0], '').trim();
                 }
+
                 
-                const titleRegex = /^(.*?)\s*\((.*?)\)$/;
+                // 제목에서 한국어 제목과 (영어 제목)을 추출
+                const titleRegex = /^(?:[0-9]+\.\s*)?(.*?)\s*\((.*?)\)$/;
                 const fullTitleMatch = rawTitleWithNumber.match(titleRegex);
 
                 let koreanTitle = rawTitleWithNumber;
                 let englishTitle = '';
 
                 if (fullTitleMatch) {
-                    koreanTitle = fullTitleMatch[1].trim();
+                    // [번호.]와 공백을 제거하고 순수한 한국어 제목만 추출
+                    koreanTitle = fullTitleMatch[1].trim().replace(/^[0-9]+\.\s*/, ''); 
                     englishTitle = fullTitleMatch[2].trim();
+                } else {
+                    // 한국어 제목만 있을 경우, 형식에 맞지 않더라도 사용
+                    koreanTitle = rawTitleWithNumber.trim().replace(/^[0-9]+\.\s*/, '');
                 }
+
+                // [핵심: 검색 기능 수정 부분] 한국어 제목을 이용해 구글 검색 URL을 동적으로 생성합니다.
+                const googleSearchBase = 'https://www.google.com/search?q=';
+                // 검색 정확도를 위해 ' 영화'를 추가하고 URL 인코딩합니다.
+                const encodedTitle = encodeURIComponent(koreanTitle + ' 영화'); 
+                const searchUrl = googleSearchBase + encodedTitle;
+
                 
                 movieContent = formatMarkdown(movieContent);
                 
-                // [H] 영화 추천 항목별 디자인 설정 (간격, 경계선, 글꼴 크기 등)
+                // 영화 추천 항목별 디자인 설정
+                const topMarginClass = index === 0 ? 'mt-2' : 'mt-6';
+                const borderClass = index === 0 ? '' : 'pt-4 border-t border-gray-300';
+                
                 html += `
-                    <div class="movie-recommendation-item my-6 pt-4 border-t border-gray-300">
-                        <!-- my-6: 영화 항목 간 상하 간격 (작게 줄임), pt-4: 상단 패딩, border-t: 상단 경계선 -->
+                    <div class="movie-recommendation-item ${topMarginClass} mb-6 ${borderClass}">
                         <h3 class="text-2xl font-bold text-gray-900 mb-2">
                             <div class="flex items-center justify-between flex-wrap gap-y-2">
                                 <!-- 제목 블록 -->
-                                <div class="flex-1 min-w-[70%]">
+                                <div class="title-block">
                                     <span class="korean-title block text-xl font-bold">${koreanTitle}</span>
                                     <span class="english-title block text-lg font-normal text-gray-600">${englishTitle}</span>
                                 </div>
                                 
-                                <!-- 검색 버튼 -->
-                                <a href="${searchUrl}" target="_blank" class="search-btn text-sm flex items-center px-4 py-1 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition duration-150 shadow-sm font-semibold">
+                                <!-- 검색 버튼: 동적으로 생성된 searchUrl 사용 -->
+                                <a href="${searchUrl}" target="_blank" class="search-btn text-sm px-3 py-1 rounded-full bg-gray-400 text-gray-800 hover:bg-gray-500 transition duration-150 flex items-center whitespace-nowrap ml-4">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                     검색
                                 </a>
@@ -639,10 +645,10 @@
             recommendationOutput.classList.add('hidden');
             
             if (service === 'vibe') {
-                serviceTitle.textContent = "1. 시청 기록 기반 (VIBE) 모드";
+                serviceTitle.textContent = "시청 기록 기반 (VIBE) 모드";
                 showView(vibeForm);
             } else if (service === 'keyword') {
-                serviceTitle.textContent = "2. 키워드 기반 (NARROW) 모드";
+                serviceTitle.textContent = "키워드 기반 (NARROW) 모드";
                 showView(keywordSubSelectionView);
             }
         }
@@ -704,42 +710,66 @@
             
             setLoading(true, `[${movies.join(', ')}] 영화들의 분위기를 분석하고 있습니다...`); recommendationOutput.classList.add('hidden');
             const movieString = movies.join(', ');
-            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 영화 ${movies.length}편을 분석하여 그들의 공통된 분위기(vibe), 장르, 주제를 완벽하게 만족시키는 새로운 영화 5편을 추천해 주세요. 1. 추천하는 영화 5편은 사용자가 이미 제공한 영화들과는 다른 영화여야 합니다. 2. 각 추천 영화 제목은 항상 '###'로 시작해야 하며, **반드시 '### [번호]. [한국어 제목] ([영어 제목])' 형식으로 제공해야 합니다.** (예: '### 1. 기생충 (Parasite)'). 3. **반드시 각 영화 제목을 구글에서 바로 검색할 수 있는 링크를 생성하여, 영화 설명의 첫 줄에 다음 형식으로 삽입해 주세요: [SEARCH_URL:Google 검색 링크]** 검색 링크는 'https://www.google.com/search?q=영화제목'과 같이, 제목을 URL 인코딩하여 포함해야 합니다. 4. 검색 URL 다음 줄부터 장르, 그리고 왜 추천하는지(짧은 이유)를 명확하게 설명해 주세요. 5. 응답은 분석 결과(사용자가 제공한 영화들의 공통된 분위기)와 추천 목록으로만 구성되어야 하며, 당신이 'AI 큐레이터'라는 사실을 언급하지 마세요.`;
-            const userQuery = `내가 좋아한 영화 목록: ${movieString}. 이 영화들의 공통적인 분위기에 맞는 새로운 영화 5편을 추천해 주세요.`;
+            // LLM에게 검색 링크를 만들지 말고, 깔끔하게 제목과 설명만 달라고 요청했습니다.
+            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 영화 ${movies.length}편을 분석하여 그들의 공통된 분위기(vibe), 장르, 주제를 완벽하게 만족시키는 새로운 영화 5편을 추천해 주세요. 1. 추천하는 영화 5편은 사용자가 이미 제공한 영화들과는 다른 영화여야 합니다. 2. 각 추천 영화 제목은 항상 '###'로 시작해야 하며, **반드시 '### [번호]. [한국어 제목] ([영어 제목])' 형식으로 제공해야 합니다.** (예: '### 1. 기생충 (Parasite)'). 3. 영화 설명에는 절대로 검색 링크나 URL을 삽입하지 마세요.`;
+            const userQuery = `이전에 시청한 영화: ${movieString}. 이 영화들의 분위기와 공통점을 바탕으로 다른 영화 5편을 추천해 주세요.`;
+
             const result = await callGeminiApi(systemPrompt, userQuery);
-            if (result) { displayRecommendation(result); }
+            if (result) {
+                displayRecommendation(result);
+            }
         });
 
         // Keyword Direct Input recommendation request (기능 코드)
         getKeywordRecommendationBtn.addEventListener('click', async () => {
-            const keywords = keywordInput.value.trim();
-            if (!keywords) { aiRecommendationContent.innerHTML = '<p class="text-red-500 font-bold">⚠️ 경고: 원하는 키워드를 입력해 주세요.</p>'; recommendationOutput.classList.remove('hidden'); return; }
-            setLoading(true, `[${keywords}] 키워드에 맞는 영화를 검색하고 있습니다...`); recommendationOutput.classList.add('hidden');
-            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 키워드와 조건에 가장 잘 맞는 영화 5편을 추천해 주세요. 1. 각 추천 영화 제목은 항상 '###'로 시작해야 하며, **반드시 '### [번호]. [한국어 제목] ([영어 제목])' 형식으로 제공해야 합니다.** (예: '### 1. 레옹 (Léon)'). 3. **반드시 각 영화 제목을 구글에서 바로 검색할 수 있는 링크를 생성하여, 영화 설명의 첫 줄에 다음 형식으로 삽입해 주세요: [SEARCH_URL:Google 검색 링크]** 검색 링크는 'https://www.google.com/search?q=영화제목'과 같이, 제목을 URL 인코딩하여 포함해야 합니다. 4. 검색 URL 다음 줄부터 장르, 그리고 키워드에 어떻게 부합하는지(짧은 이유)를 명확하게 설명해 주세요. 5. 응답은 사용자가 제시한 키워드 요약과 추천 목록으로만 구성되어야 하며, 당신이 'AI 큐레이터'라는 사실을 언급하지 마세요.`;
-            const userQuery = `내가 원하는 영화의 키워드/조건: ${keywords}. 이 조건에 가장 잘 맞는 새로운 영화 5편을 추천해 주세요.`;
+            const keyword = keywordInput.value.trim();
+            
+            if (!keyword) {
+                aiRecommendationContent.innerHTML = '<p class="text-red-500 font-bold">⚠️ 경고: 원하는 키워드를 입력해야 합니다.</p>';
+                recommendationOutput.classList.remove('hidden'); 
+                showView(recommendationOutput);
+                return;
+            }
+
+            setLoading(true, `[${keyword}] 키워드에 맞는 영화를 검색 중입니다...`); recommendationOutput.classList.add('hidden');
+            // LLM에게 검색 링크를 만들지 말고, 깔끔하게 제목과 설명만 달라고 요청했습니다.
+            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 키워드/자유 서술을 바탕으로 가장 적합하고 흥미로운 영화 5편을 추천해 주세요. 1. 각 추천 영화 제목은 항상 '###'로 시작해야 하며, **반드시 '### [번호]. [한국어 제목] ([영어 제목])' 형식으로 제공해야 합니다.** (예: '### 1. 기생충 (Parasite)'). 2. 영화 설명에는 절대로 검색 링크나 URL을 삽입하지 마세요.`;
+            const userQuery = `자유 입력 키워드: ${keyword}. 이 키워드에 맞는 영화 5편을 추천해 주세요.`;
+
             const result = await callGeminiApi(systemPrompt, userQuery);
-            if (result) { displayRecommendation(result); }
+            if (result) {
+                displayRecommendation(result);
+            }
         });
 
         // Keyword Selection List recommendation request (기능 코드)
         getSelectedRecommendationBtn.addEventListener('click', async () => {
-            if (selectedKeywords.size < 3) { aiRecommendationContent.innerHTML = '<p class="text-red-500 font-bold">⚠️ 경고: 최소 3개 이상의 키워드를 선택해야 합니다.</p>'; recommendationOutput.classList.remove('hidden'); return; }
-            const keywordsArray = Array.from(selectedKeywords);
-            const keywordString = keywordsArray.join(', ');
-            setLoading(true, `선택된 [${keywordString}] 키워드를 조합하여 최적의 영화를 찾고 있습니다...`); recommendationOutput.classList.add('hidden');
-            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 ${selectedKeywords.size}개의 키워드 조합에 가장 잘 맞는 영화 5편을 추천해 주세요. 1. 각 추천 영화 제목은 항상 '###'로 시작해야 하며, **반드시 '### [번호]. [한국어 제목] ([영어 제목])' 형식으로 제공해야 합니다.** (예: '### 1. 어벤져스: 엔드게임 (Avengers: Endgame)'). 3. **반드시 각 영화 제목을 구글에서 바로 검색할 수 있는 링크를 생성하여, 영화 설명의 첫 줄에 다음 형식으로 삽입해 주세요: [SEARCH_URL:Google 검색 링크]** 검색 링크는 'https://www.google.com/search?q=영화제목'과 같이, 제목을 URL 인코딩하여 포함해야 합니다. 4. 검색 URL 다음 줄부터 장르, 그리고 키워드에 어떻게 부합하는지(짧은 이유)를 명확하게 설명해 주세요. 5. 응답은 선택된 키워드 조합의 특징 요약과 추천 목록으로만 구성되어야 하며, 당신이 'AI 큐레이터'라는 사실을 언급하지 마세요.`;
-            const userQuery = `내가 선택한 키워드 조합: ${keywordString}. 이 조합에 가장 잘 맞는 새로운 영화 5편을 추천해 주세요.`;
+            const keywords = Array.from(selectedKeywords);
+
+            if (keywords.length < 3) {
+                 aiRecommendationContent.innerHTML = '<p class="text-red-500 font-bold">⚠️ 경고: 영화 추천의 정교함을 위해 최소 3개 이상의 키워드를 선택해야 합니다.</p>'; 
+                 recommendationOutput.classList.remove('hidden'); 
+                 showView(recommendationOutput);
+                 return;
+            }
+
+            setLoading(true, `[${keywords.join(', ')}] 키워드 조합에 맞는 영화를 검색 중입니다...`); recommendationOutput.classList.add('hidden');
+            const keywordString = keywords.join(', ');
+            // LLM에게 검색 링크를 만들지 말고, 깔끔하게 제목과 설명만 달라고 요청했습니다.
+            const systemPrompt = `당신은 세계 최고의 영화 큐레이터입니다. 한국어로 응답해야 하며, 사용자가 제공한 키워드 조합을 완벽하게 만족시키는 영화 5편을 추천해 주세요. 1. 각 추천 영화 제목은 항상 '###'로 시작해야 하며, **반드시 '### [번호]. [한국어 제목] ([영어 제목])' 형식으로 제공해야 합니다.** (예: '### 1. 기생충 (Parasite)'). 2. 영화 설명에는 절대로 검색 링크나 URL을 삽입하지 마세요.`;
+            const userQuery = `선택된 키워드: ${keywordString}. 이 조합에 맞는 영화 5편을 추천해 주세요.`;
+
             const result = await callGeminiApi(systemPrompt, userQuery);
-            if (result) { displayRecommendation(result); }
+            if (result) {
+                displayRecommendation(result);
+            }
         });
 
+        // Initial setup
         window.onload = () => {
-            renderKeywords();
-            if (!API_KEY) {
-                console.warn("API Key is missing. The Canvas environment will handle authentication.");
-            }
+            renderKeywords(); // 키워드 목록을 초기 로드
         };
-        
+
     </script>
 </body>
 </html>
